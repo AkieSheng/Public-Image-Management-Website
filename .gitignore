@@ -1,0 +1,5 @@
+node_modules/
+uploads/
+docs/
+.docker_engine_backup.md
+.docker.md

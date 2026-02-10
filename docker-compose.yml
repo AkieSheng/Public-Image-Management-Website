@@ -1,0 +1,86 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: project-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: image_db
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+    container_name: project-backend
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: image_db
+      NODE_ENV: production
+
+      # tagger 内部地址
+      AI_TAGGER_URL: http://tagger:8080/tags
+
+      AI_TAGGER_TIMEOUT: 600000
+
+      # tagger 拉图用的后端根地址
+      PUBLIC_BASE: http://project-backend:5000
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend/uploads:/app/uploads
+    ports:
+      - "5000:5000"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: project-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+  # Ollama 服务
+  ollama:
+    image: ollama/ollama:latest
+    container_name: project-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD", "sh", "-lc", "wget -qO- http://localhost:11434/ >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+
+  tagger:
+    build: ./tagger
+    container_name: project-ai-tagger
+    environment:
+      PORT: 8080
+      BACKEND_BASE: http://project-backend:5000
+      # ollama 容器
+      # OLLAMA_URL: http://ollama:11434
+      # OLLAMA_MODEL: llama3.2-vision
+      # OLLAMA_TIMEOUT: 600000
+      OLLAMA_URL: http://ollama:11434
+      OLLAMA_MODEL: moondream
+      OLLAMA_TIMEOUT: "600000"
+    depends_on:
+      - backend
+      - ollama
+
+volumes:
+  db_data:
+  ollama_data:

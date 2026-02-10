@@ -1,0 +1,71 @@
+:root{
+  --bg:#0b1020;           /* 深色背景 */
+  --panel:#111a2b;        /* 面板色 */
+  --muted:#2b3650;        /* 边框/分隔 */
+  --text:#e8edf8;         /* 主文字 */
+  --text-dim:#a5b0c5;     /* 次文字 */
+  --primary:#6aa7ff;      /* 主色 */
+  --primary-600:#3f8bff;
+  --danger:#ff6a6a;
+  --ok:#66d19e;
+}
+*{box-sizing:border-box}
+html,body,#app{height:100%}
+
+/* body 背景和默认字体 */
+body{
+  margin:0;
+  color:var(--text);
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";
+  background:
+    linear-gradient(180deg, rgba(10,15,31,.88), rgba(11,18,39,.88) 40%, rgba(12,22,48,.88)),
+    url("../assets/bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+
+/* 页面容器与卡片面板 */
+.container{max-width:1080px;margin:0 auto;padding:16px}
+.panel{background:linear-gradient(180deg,#11192a,#0f1728);border:1px solid var(--muted);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+
+/* 表单控件风格 */
+input,select,button,textarea{border-radius:12px;border:1px solid var(--muted);background:#0e1627;color:var(--text);padding:10px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--primary)}
+
+/* 按钮交互 */
+button{cursor:pointer;background:linear-gradient(180deg,#1a2b4a,#15223b);transition:transform .05s ease,filter .2s ease}
+button:hover{filter:brightness(1.05)}
+button:active{transform:translateY(1px)}
+button.primary{background:linear-gradient(180deg,#3b6bff,#2a57db);border-color:#3b6bff;color:white}
+button.danger{background:linear-gradient(180deg,#ff5050,#d63a3a);border-color:#ff5050;color:white}
+button.ghost{background:transparent}
+
+/* 布局与标签样式 */
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.sep{height:1px;background:var(--muted);margin:12px 0}
+.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--muted);border-radius:999px;padding:4px 10px;background:#0f1a2f;color:var(--text-dim);font-size:12px}
+.help{color:var(--text-dim);font-size:12px}
+
+/* 手机端：缩小 padding */
+@media (max-width:600px){ .container{padding:12px} }
+
+/* 输入带图标 */
+.icon-input{position:relative;display:flex;align-items:center;width:100%}
+.icon-input svg{position:absolute;left:10px;opacity:.65;pointer-events:none}
+.icon-input input{padding-left:34px}
+
+/* 滑杆 */
+input[type=range]{appearance:none;-webkit-appearance:none;width:220px;height:4px;border-radius:999px;background:linear-gradient(90deg,var(--primary),#7fb3ff);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid var(--primary);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#fff;border:2px solid var(--primary);cursor:pointer}
+
+/* 图像裁剪台 */
+.img-stage{position:relative;display:inline-block;max-width:100%}
+.img-stage img{display:block;max-width:100%;border-radius:12px;border:1px solid var(--muted)}
+.sel-box{position:absolute;border:2px dashed #6aa7ff;background:rgba(106,167,255,.15);pointer-events:none}
