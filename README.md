@@ -4,6 +4,8 @@
 > 技术栈：Vue 3 + Vite、Node.js + Express、Sequelize、MySQL 8、Nginx、Docker Compose
 > 适用：Windows / macOS / Linux（推荐 Docker Desktop + Compose）
 
+## 【注意】仅供参考与用户使用，如有抄袭，后果自负！
+
 ## 1. 项目概览
 
 本网站实现“图片上传—自动解析 EXIF—生成缩略图—标签管理—条件检索—轮播展示—编辑—删除”的完整闭环，并提供增强能力：AI 自动打标（Ollama + llama3.2-vision/moondream）与 MCP 对话检索接口。
